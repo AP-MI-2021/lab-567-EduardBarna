@@ -62,5 +62,25 @@ def schimba_gen(titlu_dat, gen_nou, lista):
             pass
     return lista
 
+def pret_min_per_gen(gen, lista):
+    '''
+    Returneaza pretul minim pentru un anume gen
+    :param gen: genul cartii
+    :param lista: lista cu vanzari
+    :return:pretul minim pentru un gen dat
+    '''
+    pret_min = None
+    for v in lista:
+        if gen == getGen(v):
+            pret = getPret(v)
+            if pret_min is not None and pret < pret_min:
+                pret_min = pret
+            elif pret_min is None:
+                pret_min = pret
+            else:
+                pass
+    return pret_min
+
+
 
 

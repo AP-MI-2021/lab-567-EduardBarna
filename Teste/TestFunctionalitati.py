@@ -1,6 +1,6 @@
 from Domain.vanzare2 import getPret, getGen
 from Logic.CRUD import adauga_vanzare, getById
-from Logic.functionalitati import aplica_discount, silver_discount, gold_discount, schimba_gen
+from Logic.functionalitati import aplica_discount, silver_discount, gold_discount, schimba_gen, pret_min_per_gen
 
 
 def test_silver_discount():
@@ -41,6 +41,18 @@ def test_schimba_gen():
     assert getGen(getById("1", lista)) == "Drama"
     assert getGen(getById("4", lista)) == "Drama"
 
+def test_pret_min_per_gen():
+    lista = []
+    lista = adauga_vanzare("1", "Ion", "Drama", 20, "silver", lista)
+    lista = adauga_vanzare("2", "Morometii", "Drama", 30, "none", lista)
+    lista = adauga_vanzare("3", "Dama de pica", "Teatru", 45, "gold", lista)
+    lista = adauga_vanzare("4", "Procesul", "Filosofie", 54, "silver", lista)
+    lista = adauga_vanzare("5", "Scripcarul", "Teatru", 42, "none", lista)
+
+
+    assert pret_min_per_gen("Drama", lista) == 20
+    assert pret_min_per_gen("Teatru", lista) == 42
+    assert pret_min_per_gen("Copii", lista) == None
 
 
 

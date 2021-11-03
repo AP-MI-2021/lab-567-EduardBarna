@@ -1,6 +1,6 @@
 from Domain.vanzare2 import ToString
 from Logic.CRUD import adauga_vanzare, sterge_vanzare, modifica_vanzare
-from Logic.functionalitati import aplica_discount, schimba_gen
+from Logic.functionalitati import aplica_discount, schimba_gen, pret_min_per_gen
 
 
 def printMenu():
@@ -9,6 +9,7 @@ def printMenu():
     print("3.Modifica vanzare")
     print("4.Aplica discount  de 5% pentru toate reducerile silver și 10% pentru toate reducerile gold.")
     print("5.Schimba genul unei carti cu titlul dat")
+    print("6.Afiseaza pretul minim pentru un anume gen")
     print("a.Afiseaza toate vanzarile")
     print("x.Exit")
 
@@ -48,6 +49,10 @@ def ui_schimba_gen(lista):
     lista = schimba_gen( titlu, gen_nou, lista)
     return lista
 
+def ui_pret_min_per_gen(lista):
+    gen = input("Introduceti genul pentru care doriti sa aflati pretul minim: ")
+    return pret_min_per_gen(gen, lista)
+
 def runMenu():
     lista = []
     while True:
@@ -63,6 +68,8 @@ def runMenu():
             lista = ui_aplica_discount(lista)
         elif optiune == '5':
             lista = ui_schimba_gen(lista)
+        elif optiune =='6':
+            print("Pretul minim pentru genul dat este:" + str(ui_pret_min_per_gen(lista)))
         elif optiune == 'a':
             ui_afisare_vanzari(lista)
         elif optiune == 'x':

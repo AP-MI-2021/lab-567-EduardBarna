@@ -3,11 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="587970bd-8c0b-473b-91de-1e3cb979092f" name="Changes" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Logic/CRUD.py" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/CRUD.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Logic/functionalitati.py" beforeDir="false" afterPath="$PROJECT_DIR$/Logic/functionalitati.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Teste/TestFunctionalitati.py" beforeDir="false" afterPath="$PROJECT_DIR$/Teste/TestFunctionalitati.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Teste/testCRUD.py" beforeDir="false" afterPath="$PROJECT_DIR$/Teste/testCRUD.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Teste/testDomain.py" beforeDir="false" afterPath="$PROJECT_DIR$/Teste/testDomain.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Teste/testALL.py" beforeDir="false" afterPath="$PROJECT_DIR$/Teste/testALL.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/UI/Consola.py" beforeDir="false" afterPath="$PROJECT_DIR$/UI/Consola.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
