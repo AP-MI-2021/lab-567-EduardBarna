@@ -1,0 +1,52 @@
+from Domain.vanzare import getPret, getGen
+from Logic.CRUD import adauga_vanzare, getById
+from Logic.functionalitati import aplica_discount, silver_discount, gold_discount, schimba_gen
+
+
+def test_silver_discount():
+    assert silver_discount(50) == 47.5
+    assert silver_discount(100) == 95
+    assert silver_discount(20) == 19
+
+def test_gold_discount():
+    assert gold_discount(100) == 90
+    assert gold_discount(400) == 360
+    assert gold_discount(187.68) == 168.912
+
+
+def test_aplica_discount():
+    lista = []
+    lista = adauga_vanzare("1", "Ion", "Drama", 20, "silver", lista)
+    lista = adauga_vanzare("2", "Morometii", "Drama", 30, "none", lista)
+    lista = adauga_vanzare("3", "Dama de pica", "Teatru", 45, "gold", lista)
+    lista = adauga_vanzare("4", "Procesul", "Filosofie", 54, "silver", lista)
+
+    lista = aplica_discount(lista)
+    assert getPret(getById("1", lista)) == 19
+    assert getPret(getById("2", lista)) == 30
+    assert getPret(getById("3", lista)) == 40.5
+    assert getPret(getById("4", lista)) == 51.3
+
+
+def test_schimba_gen():
+    lista = []
+    lista = adauga_vanzare("1", "Ion", "Drama", 20, "silver", lista)
+    lista = adauga_vanzare("2", "Morometii", "Drama", 30, "none", lista)
+    lista = adauga_vanzare("3", "Dama de pica", "Teatru", 45, "gold", lista)
+    lista = adauga_vanzare("4", "Procesul", "Filosofie", 54, "silver", lista)
+
+    lista = schimba_gen("Dama de pica", "Comedie", lista)
+    lista = schimba_gen("Procesul", "Drama", lista)
+    assert getGen(getById("3", lista)) == "Comedie"
+    assert getGen(getById("1", lista)) == "Drama"
+    assert getGen(getById("4", lista)) == "Drama"
+
+
+
+
+def test_discount():
+    test_aplica_discount()
+    test_silver_discount()
+    test_gold_discount()
+
+
