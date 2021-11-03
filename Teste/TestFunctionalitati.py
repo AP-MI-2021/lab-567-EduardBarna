@@ -1,4 +1,4 @@
-from Domain.vanzare import getPret, getGen
+from Domain.vanzare2 import getPret, getGen
 from Logic.CRUD import adauga_vanzare, getById
 from Logic.functionalitati import aplica_discount, silver_discount, gold_discount, schimba_gen
 

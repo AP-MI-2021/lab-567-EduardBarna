@@ -1,4 +1,4 @@
-from Domain.vanzare import creaza_vanzare, getId, getTitlu, getGen, getPret, getReducere
+from Domain.vanzare2 import creaza_vanzare, getId, getTitlu, getGen, getPret, getReducere
 
 
 def test_creaza_vanzare():

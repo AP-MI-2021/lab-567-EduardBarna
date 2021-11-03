@@ -1,5 +1,5 @@
 
-from Domain.vanzare import getReducere, getPret, getId, getTitlu, getGen
+from Domain.vanzare2 import getReducere, getPret, getId, getTitlu, getGen
 from Logic.CRUD import  modifica_vanzare
 
 

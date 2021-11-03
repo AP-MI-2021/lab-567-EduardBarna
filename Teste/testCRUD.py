@@ -1,5 +1,5 @@
 from Logic.CRUD import adauga_vanzare, getById, sterge_vanzare, modifica_vanzare
-from Domain.vanzare import getId, getTitlu, getPret, getGen
+from Domain.vanzare2 import getId, getTitlu, getPret, getGen
 
 
 def test_adauga_vanzare():

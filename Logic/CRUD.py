@@ -1,4 +1,4 @@
-from Domain.vanzare import creaza_vanzare, getId
+from Domain.vanzare2 import creaza_vanzare, getId
 
 
 def getById(id, lista):

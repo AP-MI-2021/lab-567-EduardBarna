@@ -1,4 +1,4 @@
-from Domain.vanzare import ToString
+from Domain.vanzare2 import ToString
 from Logic.CRUD import adauga_vanzare, sterge_vanzare, modifica_vanzare
 from Logic.functionalitati import aplica_discount, schimba_gen
 
@@ -40,14 +40,12 @@ def ui_afisare_vanzari(lista):
 
 def ui_aplica_discount(lista):
    lista = aplica_discount(lista)
-   print("Discount-urile au fost aplicate cu succes")
    return lista
 
 def ui_schimba_gen(lista):
     titlu = input("introduceti titlul cartii careia doriti sa ii modificati genul: ")
     gen_nou = input("Introduceti noul gen al cartii: ")
     lista = schimba_gen( titlu, gen_nou, lista)
-    print('Genul cartii a fost modificat cu succes!  ')
     return lista
 
 def runMenu():
@@ -66,7 +64,7 @@ def runMenu():
         elif optiune == '5':
             lista = ui_schimba_gen(lista)
         elif optiune == 'a':
-            lista = ui_afisare_vanzari(lista)
+            ui_afisare_vanzari(lista)
         elif optiune == 'x':
             break
         else:
