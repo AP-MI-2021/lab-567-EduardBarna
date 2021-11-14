@@ -1,6 +1,8 @@
 from Domain.vanzare2 import getPret, getGen
 from Logic.CRUD import adauga_vanzare, getById
-from Logic.functionalitati import aplica_discount, silver_discount, gold_discount, schimba_gen, pret_min_per_gen
+from Logic.functionalitati import aplica_discount, silver_discount, gold_discount, schimba_gen, pret_min_per_gen, \
+    ordonare_vanzari, titluri_distincte_fiecare_gen
+from Domain.vanzare2 import getId
 
 
 def test_silver_discount():
@@ -53,6 +55,31 @@ def test_pret_min_per_gen():
     assert pret_min_per_gen("Drama", lista) == 20
     assert pret_min_per_gen("Teatru", lista) == 42
     assert pret_min_per_gen("Copii", lista) == None
+
+def test_ordonare_vanzari():
+    lista = []
+    lista = adauga_vanzare("1", "Ion", "Drama", 98, "silver", lista)
+    lista = adauga_vanzare("2", "Morometii", "Drama", 30, "none", lista)
+    lista = adauga_vanzare("3", "Dama de pica", "Teatru", 498, "gold", lista)
+    lista = adauga_vanzare("4", "Procesul", "Filosofie", 54, "silver", lista)
+
+    lista_sortata = ordonare_vanzari(lista)
+    assert getId(lista_sortata[0]) == '2'
+    assert getId(lista_sortata[1]) == '4'
+    assert getId(lista_sortata[2]) == '1'
+    assert getId(lista_sortata[3]) == '3'
+
+def test_titluri_distincte_fiecare_gen():
+    lista = []
+    lista = adauga_vanzare("1", "Ion", "Drama", 20, "silver", lista)
+    lista = adauga_vanzare("2", "Morometii", "Drama", 30, "none", lista)
+    lista = adauga_vanzare("3", "Dama de pica", "Teatru", 45, "gold", lista)
+    lista = adauga_vanzare("4", "Procesul", "Filosofie", 54, "silver", lista)
+
+    assert titluri_distincte_fiecare_gen("Drama", lista) == 2
+    assert titluri_distincte_fiecare_gen("Teatru", lista) == 1
+    assert titluri_distincte_fiecare_gen("Comedie", lista) == 0
+
 
 
 

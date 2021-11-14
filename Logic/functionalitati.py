@@ -1,6 +1,6 @@
 
 from Domain.vanzare2 import getReducere, getPret, getId, getTitlu, getGen
-from Logic.CRUD import  modifica_vanzare
+from Logic.CRUD import modifica_vanzare
 
 
 def silver_discount(pret):
@@ -80,6 +80,35 @@ def pret_min_per_gen(gen, lista):
             else:
                 pass
     return pret_min
+
+
+def ordonare_vanzari(lista):
+    '''
+    Ordoneaza vânzările crescător după preț
+    :param lista:lista de vanzari
+    :return:lista modificata cu vanzarile ordonate crescator in functie de pret
+    '''
+    return sorted(lista, key=lambda vanzare: getPret(vanzare))
+
+
+
+def titluri_distincte_fiecare_gen(gen, lista):
+    '''
+    Determina numarul de titluri distincte pentru un anume gen
+    :param gen: genul dat
+    :param lista: lista de vanzari
+    :return: nr de titluri distincte pentru un gen dat
+    '''
+    nr_titluri = 0
+    lst_titluri = []
+    for v in lista:
+        titlu = getTitlu(v)
+        if gen == getGen(v) and titlu not in lst_titluri:
+            nr_titluri += 1
+            lst_titluri.append(titlu)
+    return nr_titluri
+
+
 
 
 

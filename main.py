@@ -1,10 +1,10 @@
 from Teste.testALL import test_all
-from UI.Consola2 import menu2
+from UI.Consola import runMenu
 
 
 def main():
     test_all()
-    menu2()
+    runMenu()
 
 if __name__ == "__main__":
     main()
