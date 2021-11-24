@@ -21,12 +21,15 @@ def gold_discount(pret):
     discount = pret * 10 / 100
     return pret-discount
 
-def aplica_discount(lista):
+def aplica_discount(lista, undo_list, redo_list):
     '''
     Aplica un discount de 5% (silver) respectiv 10% (gold)
     :param lista:lista initiala
     :return: o noua lista cu discount-urile aplicate elementelor corespunzatoare (silver si gold)
     '''
+
+    undo_list.append(lista)
+    redo_list.clear()
     for v in lista:
         id = getId(v)
         titlu = getTitlu(v)
@@ -35,15 +38,15 @@ def aplica_discount(lista):
         tip_reducere = getReducere(v)
         if tip_reducere == "silver":
             pret_nou = silver_discount(pret)
-            lista = modifica_vanzare(id, titlu, gen, pret_nou, tip_reducere, lista)
+            lista = modifica_vanzare(id, titlu, gen, pret_nou, tip_reducere, lista, undo_list, redo_list)
         elif tip_reducere == "gold":
             pret_nou = gold_discount(pret)
-            lista = modifica_vanzare(id, titlu, gen, pret_nou, tip_reducere, lista)
+            lista = modifica_vanzare(id, titlu, gen, pret_nou, tip_reducere, lista, undo_list, redo_list)
     return lista
 
 
 
-def schimba_gen(titlu_dat, gen_nou, lista):
+def schimba_gen(titlu_dat, gen_nou, lista, undo_list, redo_list):
     '''
     Schimba genul unei carti cu titlul dat
     :param titlu_dat: Titlul cauatat, citit de la tastatura
@@ -51,13 +54,16 @@ def schimba_gen(titlu_dat, gen_nou, lista):
     :param lista: lista initiala de vanzari
     :return: lista noua cu elementul corespunzator  avand genul modificat
     '''
+
+    undo_list.append(lista)
+    redo_list.clear()
     for v in lista:
         id = getId(v)
         titlu = getTitlu(v)
         pret = getPret(v)
         tip_reducere = getReducere(v)
         if getTitlu(v) == titlu_dat:
-            lista = modifica_vanzare(id, titlu, gen_nou, pret, tip_reducere, lista)
+            lista = modifica_vanzare(id, titlu, gen_nou, pret, tip_reducere, lista, undo_list, redo_list)
         else:
             pass
     return lista
@@ -108,6 +114,33 @@ def titluri_distincte_fiecare_gen(gen, lista):
             lst_titluri.append(titlu)
     return nr_titluri
 
+
+def do_undo(undo_list, redo_list, current_list):
+    """
+    :param undo_list:
+    :param redo_list:
+    :param current_list:
+    :return:
+    """
+    if len(undo_list) > 0:
+        redo_list.append(current_list)
+        return undo_list.pop()
+    else:
+        return None
+
+
+def do_redo(undo_list, redo_list, current_list):
+    """
+    :param undo_list:
+    :param redo_list:
+    :param current_list:
+    :return:
+    """
+    if len(redo_list) > 0:
+        undo_list.append(current_list)
+        return redo_list.pop()
+    else:
+        return None
 
 
 

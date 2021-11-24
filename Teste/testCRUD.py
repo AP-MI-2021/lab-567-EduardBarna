@@ -4,9 +4,12 @@ from Domain.vanzare2 import getId, getTitlu, getPret, getGen
 
 def test_adauga_vanzare():
     lista = []
-    lista = adauga_vanzare("1", "Ion", "Drama", 20, "silver", lista)
-    lista = adauga_vanzare("2", "Morometii", "Drama", 30, "gold", lista)
-    lista = adauga_vanzare("3", "Dama de pica", "Teatru", 45, "gold", lista)
+    undo_list = []
+    redo_list = []
+
+    lista = adauga_vanzare("1", "Ion", "Drama", 20, "silver", lista, undo_list, redo_list)
+    lista = adauga_vanzare("2", "Morometii", "Drama", 30, "gold", lista, undo_list, redo_list)
+    lista = adauga_vanzare("3", "Dama de pica", "Teatru", 45, "gold", lista, undo_list, redo_list)
 
     assert len(lista) == 3
     assert getId(getById("1", lista)) == "1"
@@ -16,11 +19,14 @@ def test_adauga_vanzare():
 
 def test_sterge_vanzare():
     lista = []
-    lista = adauga_vanzare("1", "Ion", "Drama", 20, "silver", lista)
-    lista = adauga_vanzare("2", "Morometii", "Drama", 30, "gold", lista)
-    lista = adauga_vanzare("3", "Dama de pica", "Teatru", 45, "gold", lista)
+    undo_list = []
+    redo_list = []
 
-    lista = sterge_vanzare("2", lista)
+    lista = adauga_vanzare("1", "Ion", "Drama", 20, "silver", lista, undo_list, redo_list)
+    lista = adauga_vanzare("2", "Morometii", "Drama", 30, "gold", lista, undo_list, redo_list)
+    lista = adauga_vanzare("3", "Dama de pica", "Teatru", 45, "gold", lista, undo_list, redo_list)
+
+    lista = sterge_vanzare("2", lista, undo_list, redo_list)
 
     assert len(lista) == 2
     assert getById("2", lista) is None
@@ -28,11 +34,14 @@ def test_sterge_vanzare():
 
 def test_modifica_vanzare():
     lista = []
-    lista = adauga_vanzare("1", "Ion", "Drama", 20, "silver", lista)
-    lista = adauga_vanzare("2", "Morometii", "Drama", 30, "gold", lista)
-    lista = adauga_vanzare("3", "Dama de pica", "Teatru", 45, "gold", lista)
+    undo_list = []
+    redo_list = []
 
-    lista = modifica_vanzare("1", "Procesul", "Filosofie", 45, "none", lista)
+    lista = adauga_vanzare("1", "Ion", "Drama", 20, "silver", lista, undo_list, redo_list)
+    lista = adauga_vanzare("2", "Morometii", "Drama", 30, "gold", lista, undo_list, redo_list)
+    lista = adauga_vanzare("3", "Dama de pica", "Teatru", 45, "gold", lista, undo_list, redo_list)
+
+    lista = modifica_vanzare("1", "Procesul", "Filosofie", 45, "none", lista, undo_list, redo_list)
 
     assert len(lista) == 3
     vanzare_modificata = getById("1", lista)

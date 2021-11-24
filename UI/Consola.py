@@ -1,7 +1,7 @@
 from Domain.vanzare2 import ToString
 from Logic.CRUD import adauga_vanzare, sterge_vanzare, modifica_vanzare
 from Logic.functionalitati import aplica_discount, schimba_gen, pret_min_per_gen, ordonare_vanzari, \
-    titluri_distincte_fiecare_gen
+    titluri_distincte_fiecare_gen, do_undo, do_redo
 
 
 def printMenu():
@@ -18,43 +18,37 @@ def printMenu():
     print("a.Afiseaza toate vanzarile")
     print("x.Exit")
 
-def ui_adauga_vanzare(lista, listUndo, listRedo):
+def ui_adauga_vanzare(lista, undo_list, redo_list):
     try:
         id = input("Introduceti id-ul: ")
         titlu = input("Introduceti titlul: ")
         gen = input("Introduceti genul: ")
         pret = float(input("Introduceti pretul: "))
         tip_reducere = input("Introduceti tipul de reducere: ")
-        rezultat = adauga_vanzare(id, titlu, gen, pret, tip_reducere, lista)
-        listUndo.append(lista)
-        listRedo.clear()
-        return rezultat
+        return adauga_vanzare(id, titlu, gen, pret, tip_reducere, lista,undo_list, redo_list,)
+
     except ValueError as ve:
         print("Eroare: {}".format(ve))
         return lista
 
-def ui_sterge_vanzare(lista, listUndo, listRedo):
+def ui_sterge_vanzare(lista, undo_list, redo_list):
     try:
         id = input("Introduceti id-ul vanzarii ce doriti sa fie sters: ")
         print("Vanzarea a fost stearsa cu succes!")
-        rezultat = sterge_vanzare(id, lista)
-        listUndo.append(lista)
-        listRedo.clear()
+        rezultat = sterge_vanzare(id, lista, undo_list, redo_list)
         return rezultat
     except ValueError as ve:
         print("Eroare: {}".format(ve))
         return lista
 
-def ui_modifica_vanzare(lista, listUndo, listRedo):
+def ui_modifica_vanzare(lista, undo_list, redo_list):
     try:
         id = input("Introduceti id-ul vanzarii ce doriti sa se modifice: ")
         titlu = input("Introduceti  noul titlu: ")
         gen = input("Introduceti  noul gen: ")
         pret = float(input("Introduceti noul pret: "))
         tip_reducere = input("Introduceti noul tip de reducere: ")
-        rezultat = modifica_vanzare(id, titlu, gen, pret,tip_reducere, lista)
-        listUndo.append(lista)
-        listRedo.clear()
+        rezultat = modifica_vanzare(id, titlu, gen, pret,tip_reducere, lista, undo_list, redo_list)
         return rezultat
     except ValueError as ve:
         print("Eroare: {}".format(ve))
@@ -66,24 +60,20 @@ def ui_afisare_vanzari(lista):
     for vanzare in lista:
         print(ToString(vanzare))
 
-def ui_aplica_discount(lista, listUndo, listRedo):
+def ui_aplica_discount(lista, undo_list, redo_list):
     try:
-        rezultat = aplica_discount(lista)
-        listUndo.append(lista)
-        listRedo.clear()
+        rezultat = aplica_discount(lista, undo_list, redo_list)
         return rezultat
     except ValueError as ve:
         print("Eroare: {}".format(ve))
         return lista
 
 
-def ui_schimba_gen(lista, listUndo, listRedo):
+def ui_schimba_gen(lista, undo_list, redo_list):
     try:
         titlu = input("introduceti titlul cartii careia doriti sa ii modificati genul: ")
         gen_nou = input("Introduceti noul gen al cartii: ")
-        rezultat = schimba_gen(titlu, gen_nou, lista)
-        listUndo.append(lista)
-        listRedo.clear()
+        rezultat = schimba_gen(titlu, gen_nou, lista, undo_list, redo_list)
         return rezultat
 
     except ValueError as ve:
@@ -91,11 +81,10 @@ def ui_schimba_gen(lista, listUndo, listRedo):
         return lista
 
 
-def ui_pret_min_per_gen(lista, listUndo):
+def ui_pret_min_per_gen(lista):
     try:
         gen = input("Introduceti genul pentru care doriti sa aflati pretul minim: ")
         rezultat = pret_min_per_gen(gen, lista)
-        listUndo.append(lista)
         return rezultat
     except ValueError as ve:
         print("Eroare: {}".format(ve))
@@ -113,39 +102,39 @@ def ui_afisare_titluri_per_gen(lista):
 
 def runMenu():
     lista = []
-    listUndo = []
-    listRedo = []
+    undo_list = []
+    redo_list = []
     while True:
         printMenu()
         optiune = input("Dati optiunea:")
         if optiune == '1':
-            lista = ui_adauga_vanzare(lista, listUndo, listRedo)
+            lista = ui_adauga_vanzare(lista, undo_list, redo_list)
         elif optiune == '2':
-            lista = ui_sterge_vanzare(lista, listUndo, listRedo)
+            lista = ui_sterge_vanzare(lista, undo_list, redo_list)
         elif optiune == '3':
-            lista = ui_modifica_vanzare(lista, listUndo, listRedo)
+            lista = ui_modifica_vanzare(lista, undo_list, redo_list)
         elif optiune == '4':
-            lista = ui_aplica_discount(lista, listUndo, listRedo)
+            lista = ui_aplica_discount(lista, undo_list, redo_list)
         elif optiune == '5':
-            lista = ui_schimba_gen(lista, listUndo, listRedo)
+            lista = ui_schimba_gen(lista, undo_list, redo_list)
         elif optiune == '6':
-            print("Pretul minim pentru genul dat este:" + str(ui_pret_min_per_gen(lista, listUndo)))
+            print("Pretul minim pentru genul dat este:" + str(ui_pret_min_per_gen(lista)))
         elif optiune == '7':
             print(ui_ordonare_vanzari(lista))
         elif optiune == '8':
             ui_afisare_titluri_per_gen(lista)
         elif optiune == 'u':
-            if len(listUndo) > 0:
-                listRedo.append(lista)
-                lista = listUndo.pop()
+            previous_list = do_undo(undo_list, redo_list, lista)
+            if previous_list is not None:
+                lista = previous_list
             else:
-                print("Nu se poate face undo")
+                print("Nu se poate face undo!")
         elif optiune == 'r':
-            if len(listRedo) > 0:
-                listUndo.append(lista)
-                lista = listRedo.pop()
+            previous_list = do_redo(undo_list, redo_list, lista)
+            if previous_list is not None:
+                lista = previous_list
             else:
-                print("Nu se poate face redo")
+                print("Nu se poate face redo!")
 
         elif optiune == 'a':
             ui_afisare_vanzari(lista)
